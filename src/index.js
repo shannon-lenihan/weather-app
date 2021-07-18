@@ -1,4 +1,4 @@
-//some givens for use throughout
+//some variables for use throughout
 
 let measurementUnit = "imperial";
 var DateTime = luxon.DateTime;
@@ -24,7 +24,7 @@ let monthsofYear = [
   "June",
   "July",
   "August",
-  "Septemper",
+  "September",
   "October",
   "November",
   "December",
@@ -255,6 +255,10 @@ function showWeather(response) {
   let humidity = response.data.main.humidity;
   let humidityField = document.querySelector(".humidity");
   humidityField.innerHTML = `${Math.round(humidity)}`;
+
+  let descriptionElement = response.data.weather[0].description;
+  let descriptionField = document.querySelector(".current-description");
+  descriptionField.innerHTML = `${descriptionElement}`;
 
   getMore(response.data.coord);
 }

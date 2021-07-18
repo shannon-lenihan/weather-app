@@ -139,6 +139,7 @@ input.form-check-input[type="checkbox"]:checked {
 
 .current-description {
   font-size: calc(0.6rem + 0.5vw);
+  text-transform: capitalize;
 }
 
 .current-temp {
