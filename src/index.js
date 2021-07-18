@@ -1,9 +1,9 @@
 //some givens for use throughout
 
-let measurementUnit = null;
+let measurementUnit = "imperial";
 var DateTime = luxon.DateTime;
-let windSpeed = null;
 let mainTemperature = null;
+let windSpeed = null;
 
 let daysOfWeek = [
   "Monday",
@@ -83,12 +83,6 @@ currentTime.innerHTML = `${calculatedTime(today, userTimeZone)}`;
 //change units (temp, wind speed) from imperial to metric with the metric switch at top right
 
 function changeTemp() {
-  if (unitSwitcher.checked) {
-    measurementUnit = "metric";
-  } else {
-    measurementUnit = "imperial";
-  }
-
   let temperatureDisplay = document.querySelectorAll(".temperature");
   let displayUnit = document.querySelectorAll(".temp-unit");
   let tempArray = Array.from(temperatureDisplay);
@@ -108,25 +102,36 @@ function changeTemp() {
 }
 
 function changeWindSpeed() {
-  let windSpeedDisplay = document.querySelector(".wind-speed");
-  let mph = windSpeed;
-  let kmph = mph * 1.609344;
+  let windSpeedField = document.querySelector(".wind-speed");
+  let windSpeedUnit = document.querySelector(".wind-unit");
+  let windSpeedText = windSpeedField.innerText;
+
   if (unitSwitcher.checked) {
-    windSpeedDisplay.innerHTML = `${Math.round(kmph)} km/h`;
+    let metersPerSec = Math.round(windSpeedText / 2.237);
+    windSpeedField.innerHTML = `${metersPerSec}`;
+    windSpeedUnit.innerHTML = ` m/s`;
   } else {
-    windSpeedDisplay.innerHTML = `${Math.round(mph)} mph`;
+    let mph = Math.round(windSpeedText * 2.237);
+    windSpeedField.innerHTML = `${mph}`;
+    windSpeedUnit.innerHTML = ` mph`;
   }
 }
 
 //the trigger code for hitting the metric switch
 
 function changeUnit() {
+  if (unitSwitcher.checked) {
+    measurementUnit = "metric";
+  } else {
+    measurementUnit = "imperial";
+  }
+
   changeTemp();
   changeWindSpeed();
 }
 
 let unitSwitcher = document.querySelector(".unit-switcher");
-unitSwitcher.addEventListener("change", changeTemp);
+unitSwitcher.addEventListener("change", changeUnit);
 
 //convert UV Index value from number to description
 
@@ -224,6 +229,7 @@ function getMore(coordinates) {
 //math and innerHTML transforms from Current Weather API
 
 function showWeather(response) {
+  console.log(response.data);
   mainTemperature = Math.round(response.data.main.temp);
   let currentTemperature = document.querySelector(".real-temp");
   currentTemperature.innerHTML = `${mainTemperature}`;
@@ -241,8 +247,9 @@ function showWeather(response) {
   todayHigh.innerHTML = `${tempMax}`;
 
   windSpeed = Math.round(response.data.wind.speed);
+  console.log(windSpeed);
   let windSpeedDisplay = document.querySelector(".wind-speed");
-  windSpeedDisplay.innerHTML = `${windSpeed} mph`;
+  windSpeedDisplay.innerHTML = `${windSpeed}`;
 
   let humidity = Math.round(response.data.main.humidity);
   let humidityField = document.querySelector(".humidity");
