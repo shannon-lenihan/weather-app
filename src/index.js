@@ -227,6 +227,23 @@ function getMore(coordinates) {
   axios.get(coordApi).then(getForecast);
 }
 
+function iconChange(code) {
+  let betterIcons = [
+    "bi bi-brightness-high",
+    "bi bi-cloud-sun",
+    "bi bi-cloudy",
+    "bi bi-clouds",
+    "bi bi-cloud-drizzle",
+    "bi bi-cloud-rain-heavy",
+    "bi bi-cloud-lightning-rain",
+    "bi bi-snow",
+    "bi bi-cloud-haze",
+  ];
+  let originalIcon = code.slice(0, 2);
+
+  return betterIcons[originalIcon - 1];
+}
+
 //math and innerHTML transforms from Current Weather API
 
 function showWeather(response) {
@@ -260,6 +277,10 @@ function showWeather(response) {
   let descriptionElement = response.data.weather[0].description;
   let descriptionField = document.querySelector(".current-description");
   descriptionField.innerHTML = `${descriptionElement}`;
+
+  let iconCode = response.data.weather[0].icon;
+  let iconElement = document.querySelector(".current-img");
+  iconElement.setAttribute("class", `${iconChange(iconCode)} current-img`);
 
   getMore(response.data.coord);
 }
