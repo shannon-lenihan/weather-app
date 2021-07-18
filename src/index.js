@@ -173,6 +173,7 @@ function getMoonPhase(mpValue) {
 
 function sunTime(timestamp, timezone) {
   let sunTimeVanilla = DateTime.fromSeconds(timestamp).setZone(timezone);
+  let ampm = sunTimeVanilla.hour >= 12 ? "PM" : "AM";
 
   let sunHour = hourConversion(sunTimeVanilla.hour);
 
@@ -180,7 +181,7 @@ function sunTime(timestamp, timezone) {
   if (sunMinute < 10) {
     sunMinute = `0${sunMinute}`;
   }
-  let sunTimeConverted = `${sunHour}:${sunMinute}`;
+  let sunTimeConverted = `${sunHour}:${sunMinute} ${ampm}`;
   return sunTimeConverted;
 }
 

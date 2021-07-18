@@ -170,11 +170,15 @@ input.form-check-input[type="checkbox"]:checked {
 
 .weather-lower {
   text-align: center;
-  font-size: calc(0.4rem + 0.8vw);
+  font-size: calc(0.4rem + 0.6vw);
   margin-top: 25px;
 }
 
 .weather-lower .col-2 {
+  padding: 0px;
+}
+
+.weather-lower .sun-times {
   padding: 0px;
 }
 
