@@ -90,12 +90,12 @@ function changeTemp() {
   tempArray.forEach(function (temp, index) {
     temp = tempArray[index].innerText;
     if (unitSwitcher.checked) {
-      let convertedTemp = Math.round((temp - 32) / 1.8);
-      temperatureDisplay[index].innerHTML = `${convertedTemp}`;
+      let convertedTemp = (temp - 32) / 1.8;
+      temperatureDisplay[index].innerHTML = `${Math.round(convertedTemp)}`;
       displayUnit[index].innerHTML = "°C";
     } else {
-      let convertedTemp = Math.round(temp * 1.8 + 32);
-      temperatureDisplay[index].innerHTML = `${convertedTemp}`;
+      let convertedTemp = temp * 1.8 + 32;
+      temperatureDisplay[index].innerHTML = `${Math.round(convertedTemp)}`;
       displayUnit[index].innerHTML = "°F";
     }
   });
@@ -107,12 +107,12 @@ function changeWindSpeed() {
   let windSpeedText = windSpeedField.innerText;
 
   if (unitSwitcher.checked) {
-    let metersPerSec = Math.round(windSpeedText / 2.237);
-    windSpeedField.innerHTML = `${metersPerSec}`;
-    windSpeedUnit.innerHTML = ` m/s`;
+    let metersPerSec = windSpeedText * 1.609;
+    windSpeedField.innerHTML = `${Math.round(metersPerSec)}`;
+    windSpeedUnit.innerHTML = ` km/h`;
   } else {
-    let mph = Math.round(windSpeedText * 2.237);
-    windSpeedField.innerHTML = `${mph}`;
+    let mph = windSpeedText / 1.609;
+    windSpeedField.innerHTML = `${Math.round(mph)}`;
     windSpeedUnit.innerHTML = ` mph`;
   }
 }
@@ -187,11 +187,11 @@ function sunTime(timestamp, timezone) {
 //math and innerHTML transforms from One Call API
 
 function getForecast(response) {
-  let precipitation = Math.round(response.data.daily[0].pop * 100);
+  let precipitation = response.data.daily[0].pop * 100;
   let precipField = document.querySelector(".precip-percent");
-  precipField.innerHTML = `${precipitation}`;
+  precipField.innerHTML = `${Math.round(precipitation)}`;
 
-  let uvIndex = Math.round(response.data.current.uvi);
+  let uvIndex = response.data.current.uvi;
   let uviField = document.querySelector(".uv-index");
   uviField.innerHTML = `${uvIndexValue(uvIndex)}`;
 
@@ -207,9 +207,9 @@ function getForecast(response) {
   let sunsetField = document.querySelector(".sunset");
   sunsetField.innerHTML = `${sunTime(sunsetTime, localTimeZone)}`;
 
-  let nightTemp = Math.round(response.data.daily[0].temp.night);
+  let nightTemp = response.data.daily[0].temp.night;
   let tonightDisplay = document.querySelector(".tonight-temp");
-  tonightDisplay.innerHTML = `${nightTemp}`;
+  tonightDisplay.innerHTML = `${Math.round(nightTemp)}`;
 
   let moonPhase = response.data.daily[0].moon_phase;
   let moonDisplay = document.querySelector(".moon-phase");
@@ -229,31 +229,32 @@ function getMore(coordinates) {
 //math and innerHTML transforms from Current Weather API
 
 function showWeather(response) {
-  console.log(response.data);
-  mainTemperature = Math.round(response.data.main.temp);
+  mainTemperature = response.data.main.temp;
   let currentTemperature = document.querySelector(".real-temp");
-  currentTemperature.innerHTML = `${mainTemperature}`;
+  currentTemperature.innerHTML = `${Math.round(mainTemperature)}`;
 
-  let realFeel = Math.round(response.data.main.feels_like);
+  let realFeel = response.data.main.feels_like;
   let rfTemperature = document.querySelector(".real-feel-temp");
-  rfTemperature.innerHTML = `${realFeel}`;
+  rfTemperature.innerHTML = `${Math.round(realFeel)}`;
 
-  let tempMin = Math.round(response.data.main.temp_min);
+  let tempMin = response.data.main.temp_min;
   let todayLow = document.querySelector(".temp-low");
-  todayLow.innerHTML = `${tempMin}`;
+  todayLow.innerHTML = `${Math.round(tempMin)}`;
 
-  let tempMax = Math.round(response.data.main.temp_max);
+  let tempMax = response.data.main.temp_max;
   let todayHigh = document.querySelector(".temp-high");
-  todayHigh.innerHTML = `${tempMax}`;
+  todayHigh.innerHTML = `${Math.round(tempMax)}`;
 
-  windSpeed = Math.round(response.data.wind.speed);
-  console.log(windSpeed);
+  windSpeed = response.data.wind.speed;
+  if (measurementUnit === "metric") {
+    windSpeed = windSpeed * 3.6;
+  }
   let windSpeedDisplay = document.querySelector(".wind-speed");
-  windSpeedDisplay.innerHTML = `${windSpeed}`;
+  windSpeedDisplay.innerHTML = `${Math.round(windSpeed)}`;
 
-  let humidity = Math.round(response.data.main.humidity);
+  let humidity = response.data.main.humidity;
   let humidityField = document.querySelector(".humidity");
-  humidityField.innerHTML = `${humidity}`;
+  humidityField.innerHTML = `${Math.round(humidity)}`;
 
   getMore(response.data.coord);
 }
