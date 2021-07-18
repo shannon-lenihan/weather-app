@@ -121,6 +121,15 @@ function changeUnit() {
 let unitSwitcher = document.querySelector(".unit-switcher");
 unitSwitcher.addEventListener("change", changeTemp);
 
+//measurement unit for use in API urls
+
+let measurementUnit = null;
+if (unitSwitcher.checked) {
+  measurementUnit = "metric";
+} else {
+  measurementUnit = "imperial";
+}
+
 //convert UV Index value from number to description
 
 function uvIndexValue(uvi) {
@@ -210,7 +219,7 @@ function getMore(coordinates) {
   let cityLat = coordinates.lat;
   let cityLon = coordinates.lon;
   let coordApiKey = "2169a2396100786663a70310dd79fcc1";
-  let coordApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityLat}&lon=${cityLon}&exclude=minutely,hourly,alerts&appid=${coordApiKey}&units=imperial`;
+  let coordApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityLat}&lon=${cityLon}&exclude=minutely,hourly,alerts&appid=${coordApiKey}&units=${measurementUnit}`;
   axios.get(coordApi).then(getForecast);
 }
 
@@ -259,7 +268,7 @@ function handlePosition(position) {
   let positionLat = position.coords.latitude.toFixed(2);
   let positionLon = position.coords.longitude.toFixed(2);
   let apiLocationKey = "7e66edd0a4a9f61d32c3d08912327042";
-  let apiLocation = `https://api.openweathermap.org/data/2.5/weather?lat=${positionLat}&lon=${positionLon}&appid=${apiLocationKey}&units=imperial`;
+  let apiLocation = `https://api.openweathermap.org/data/2.5/weather?lat=${positionLat}&lon=${positionLon}&appid=${apiLocationKey}&units=${measurementUnit}`;
   axios.get(apiLocation).then(locateCityName);
 }
 
@@ -278,7 +287,7 @@ geoButton.addEventListener("click", searchLocation);
 function getWeather(searchedCity) {
   let cityName = searchedCity;
   let apiKey = "7e66edd0a4a9f61d32c3d08912327042";
-  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=imperial`;
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=${measurementUnit}`;
   axios.get(apiUrl).then(showWeather);
 }
 
