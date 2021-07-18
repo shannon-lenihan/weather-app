@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cousine&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="src/style.css" />
+
+    <script src="src/luxon.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="app-container">
+        <div class="just-the-app shadow p-3 bg-body rounded">
+          <div class="row">
+            <div class="col"></div>
+
+            <div class="col-8">
+              <form class="search-field">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  class="search-bar"
+                  id="search-text-input"
+                />
+                <button class="search-button shadow-sm" type="submit">
+                  <i class="bi bi-search"></i>
+                </button>
+                <span>
+                  <i class="bi bi-geo-alt-fill locator-field"></i>
+                </span>
+              </form>
+            </div>
+
+            <div class="col toggles">
+              <div class="">
+                <div class="form-check form-switch dark-mode-switch">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="flexSwitchCheckDefault"
+                  />
+                  <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >Dark mode</label
+                  >
+                </div>
+              </div>
+
+              <div class="switch-temp">
+                <div class="form-check form-switch temp-unit-switch">
+                  <input
+                    class="form-check-input unit-switcher"
+                    type="checkbox"
+                    id="flexSwitchCheckDefault"
+                  />
+                  <label class="form-check-label" for="flexSwitchCheckDefault"
+                    >Metric</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <section class="city-display">
+            <h2 class="date">Monday, July 12</h2>
+
+            <h3 class="">
+              <span id="current-time">7:35pm</span>
+            </h3>
+
+            <h1 class="selected-city">Washington, D.C.</h1>
+
+            <h3 class="local-time">
+              <span>Local time </span><span id="local-time">7:35 PM</span>
+            </h3>
+          </section>
+
+          <section class="current-weather">
+            <div class="row align-items-center justify-content-center">
+              <div class="col-3 current-condition">
+                <div class="current-weather-pic">
+                  <i class="bi bi-cloud-sun"></i>
+                </div>
+                <div class="current-description">Sunny</div>
+              </div>
+
+              <div class="col-3 p-0 current-temp">
+                <div class="real-temp-together">
+                  <span class="real-temp temperature">107</span
+                  ><span class="temp-unit">°F</span>
+                </div>
+
+                <div class="real-feel">
+                  Feels like
+                  <span class="real-feel-temp temperature">101</span
+                  ><span class="temp-unit">°F</span>
+                </div>
+              </div>
+              <div class="col-3">
+                <div class="current-extra">
+                  <div>Wind <span class="wind-speed">2 mph</span></div>
+                  <div>Humidity <span class="humidity">60</span>%</div>
+                  <div>
+                    Precipitation <span class="precip-percent">0</span>%
+                  </div>
+                  <div>UV Index <span class="uv-index">Moderate</span></div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="
+                row
+                align-items-center
+                justify-content-evenly
+                weather-lower
+              "
+            >
+              <div class="col-2">
+                <div class="row align-items-center justify-content-center">
+                  <div class="col img"><i class="bi bi-sunrise-fill"></i></div>
+                  <div class="col sunrise">07:54</div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                  <div class="col img"><i class="bi bi-sunset-fill"></i></div>
+                  <div class="col sunset">09:54</div>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="row align-items-center justify-content-center">
+                  <div class="col img"><i class="bi bi-caret-up-fill"></i></div>
+                  <div class="col">
+                    <span class="temperature temp-high">107</span>
+                    <span class="temp-unit">°F</span>
+                  </div>
+                </div>
+                <div class="row align-items-center justify-content-center">
+                  <div class="col img">
+                    <i class="bi bi-caret-down-fill"></i>
+                  </div>
+                  <div class="col">
+                    <span class="temperature temp-low">85</span>
+                    <span class="temp-unit">°F</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2">
+                <div class="row align-items-center justify-content-center">
+                  <div class="col tonight">
+                    <i class="bi bi-moon-stars-fill"></i>
+                  </div>
+                  <div class="col">
+                    <span class="tonight-temp temperature">85</span>
+                    <span class="temp-unit">°F</span>
+                  </div>
+                </div>
+
+                <div class="moon-phase">Full Moon</div>
+              </div>
+            </div>
+          </section>
+
+          <section class="forecast">
+            <div class="row align-items-center fiveday-forecast">
+              <div class="col tomorrow-forecast">
+                <div class="forecast-day">
+                  <div class="">Tomorrow</div>
+                  <div class="forecast-img"><i class="bi bi-sun"></i></div>
+                  <div class="row gx-0">
+                    <div class="col">
+                      <span class="forecast-high temperature">97</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                    <div class="col">
+                      <span class="forecast-low temperature">85</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                  </div>
+                  <div class="">
+                    <span class="forecast-precip-img"
+                      ><i class="bi bi-droplet-fill"></i></span
+                    ><span class="forecast-precip"> 20%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col daytwo-forecast">
+                <div class="forecast-day">
+                  <div class="day-two">Wednesday</div>
+                  <div class="forecast-img">
+                    <i class="bi bi-cloud-drizzle"></i>
+                  </div>
+                  <div class="row gx-0">
+                    <div class="col">
+                      <span class="forecast-high temperature">97</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                    <div class="col">
+                      <span class="forecast-low temperature">85</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                  </div>
+                  <div class="">
+                    <span class="forecast-precip-img"
+                      ><i class="bi bi-droplet-fill"></i></span
+                    ><span class="forecast-precip"> 20%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col daythree-forecast">
+                <div class="forecast-day">
+                  <div class="day-three">Thursday</div>
+                  <div class="forecast-img">
+                    <i class="bi bi-cloud-lightning-rain"></i>
+                  </div>
+                  <div class="row gx-0">
+                    <div class="col">
+                      <span class="forecast-high temperature">97</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                    <div class="col">
+                      <span class="forecast-low temperature">85</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                  </div>
+                  <div class="">
+                    <span class="forecast-precip-img"
+                      ><i class="bi bi-droplet-fill"></i></span
+                    ><span class="forecast-precip"> 20%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col dayfour-forecast">
+                <div class="forecast-day">
+                  <div class="day-four">Friday</div>
+                  <div class="forecast-img"><i class="bi bi-wind"></i></div>
+                  <div class="row gx-0">
+                    <div class="col">
+                      <span class="forecast-high temperature">97</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                    <div class="col">
+                      <span class="forecast-low temperature">85</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                  </div>
+                  <div class="">
+                    <span class="forecast-precip-img"
+                      ><i class="bi bi-droplet-fill"></i></span
+                    ><span class="forecast-precip"> 20%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col dayfive-forecast">
+                <div class="forecast-day">
+                  <div class="day-five">Saturday</div>
+                  <div class="forecast-img"><i class="bi bi-wind"></i></div>
+                  <div class="row gx-0">
+                    <div class="col">
+                      <span class="forecast-high temperature">97</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                    <div class="col">
+                      <span class="forecast-low temperature">85</span
+                      ><span class="temp-unit">°F</span>
+                    </div>
+                  </div>
+                  <div class="">
+                    <span class="forecast-precip-img"
+                      ><i class="bi bi-droplet-fill"></i></span
+                    ><span class="forecast-precip"> 20%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <section class="footer">
+          <div class="owner">Coded by Shannon Lenihan :)</div>
+        </section>
+      </div>
+    </div>
+
+    <script src="src/index.js"></script>
+  </body>
+</html>
