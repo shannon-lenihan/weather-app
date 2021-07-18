@@ -227,21 +227,56 @@ function getMore(coordinates) {
   axios.get(coordApi).then(getForecast);
 }
 
-function iconChange(code) {
-  let betterIcons = [
-    "bi bi-brightness-high",
-    "bi bi-cloud-sun",
-    "bi bi-cloudy",
-    "bi bi-clouds",
-    "bi bi-cloud-drizzle",
-    "bi bi-cloud-rain-heavy",
-    "bi bi-cloud-lightning-rain",
-    "bi bi-snow",
-    "bi bi-cloud-haze",
-  ];
-  let originalIcon = code.slice(0, 2);
+function iconChange(code, main) {
+  if (main === "Thunderstorm") {
+    return "bi bi-cloud-lightning-rain";
+  }
 
-  return betterIcons[originalIcon - 1];
+  if (main === "Drizzle") {
+    return "bi bi-cloud-drizzle";
+  }
+
+  if (main === "Rain") {
+    if (500 <= code <= 501) {
+      return "bi bi-cloud-rain";
+    } else if (code === 511) {
+      return "bi bi-cloud-hail";
+    } else {
+      return "bi bi-cloud-rain-heavy";
+    }
+  }
+
+  if (main === "Snow") {
+    if (611 <= code <= 616) {
+      return "bi bi-cloud-sleet";
+    } else if (600 <= code <= 602) {
+      return "bi bi-cloud-snow";
+    } else {
+      return "bi bi-snow";
+    }
+  }
+
+  if (main === "Tornado") {
+    return "bi bi-tornado";
+  }
+
+  if (main === "Clear" && code === 800) {
+    return "bi bi-brightness-high";
+  }
+
+  if (main === "Clouds") {
+    if (code === 801) {
+      return "bi bi-cloud-sun";
+    } else if (code === 802) {
+      return "bi bi-cloudy";
+    } else {
+      return "bi bi-clouds";
+    }
+  }
+
+  if (701 <= code <= 771) {
+    return "bi bi-cloud-haze";
+  }
 }
 
 //math and innerHTML transforms from Current Weather API
@@ -278,9 +313,13 @@ function showWeather(response) {
   let descriptionField = document.querySelector(".current-description");
   descriptionField.innerHTML = `${descriptionElement}`;
 
-  let iconCode = response.data.weather[0].icon;
+  let iconCode = response.data.weather[0].id;
+  let iconMain = response.data.weather[0].main;
   let iconElement = document.querySelector(".current-img");
-  iconElement.setAttribute("class", `${iconChange(iconCode)} current-img`);
+  iconElement.setAttribute(
+    "class",
+    `${iconChange(iconCode, iconMain)} current-img`
+  );
 
   getMore(response.data.coord);
 }
