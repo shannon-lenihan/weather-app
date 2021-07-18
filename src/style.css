@@ -223,6 +223,16 @@ input.form-check-input[type="checkbox"]:checked {
 .footer {
   text-align: center;
   font-family: "Cousine", monospace;
-  font-size: calc(0.4rem + 0.5vw);
+  font-size: calc(0.2rem + 0.5vw);
   margin-top: 15px;
+}
+
+.gitHub {
+  text-decoration: none;
+  color: #995770;
+}
+
+.gitHub:hover {
+  text-decoration: underline;
+  color: #995770;
 }
