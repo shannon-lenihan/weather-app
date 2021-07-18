@@ -1,5 +1,6 @@
 //some givens for use throughout
 
+let measurementUnit = null;
 var DateTime = luxon.DateTime;
 let windSpeed = null;
 let mainTemperature = null;
@@ -82,6 +83,12 @@ currentTime.innerHTML = `${calculatedTime(today, userTimeZone)}`;
 //change units (temp, wind speed) from imperial to metric with the metric switch at top right
 
 function changeTemp() {
+  if (unitSwitcher.checked) {
+    measurementUnit = "metric";
+  } else {
+    measurementUnit = "imperial";
+  }
+
   let temperatureDisplay = document.querySelectorAll(".temperature");
   let displayUnit = document.querySelectorAll(".temp-unit");
   let tempArray = Array.from(temperatureDisplay);
@@ -120,15 +127,6 @@ function changeUnit() {
 
 let unitSwitcher = document.querySelector(".unit-switcher");
 unitSwitcher.addEventListener("change", changeTemp);
-
-//measurement unit for use in API urls
-
-let measurementUnit = null;
-if (unitSwitcher.checked) {
-  measurementUnit = "metric";
-} else {
-  measurementUnit = "imperial";
-}
 
 //convert UV Index value from number to description
 
