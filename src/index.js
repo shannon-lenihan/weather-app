@@ -80,7 +80,61 @@ currentDate.innerHTML = `${calculatedDate(today, userTimeZone)}`;
 let currentTime = document.querySelector("#current-time");
 currentTime.innerHTML = `${calculatedTime(today, userTimeZone)}`;
 
-//change units (temp, wind speed) from imperial to metric with the metric switch at top right
+//translate the weather condition info from the API to Bootstrap icons
+
+function iconChange(code, main) {
+  if (main === "Thunderstorm") {
+    return "bi-cloud-lightning-rain";
+  }
+
+  if (main === "Drizzle") {
+    return "bi-cloud-drizzle";
+  }
+
+  if (main === "Rain") {
+    if (500 <= code <= 501) {
+      return "bi-cloud-rain";
+    } else if (code === 511) {
+      return "bi-cloud-hail";
+    } else {
+      return "bi-cloud-rain-heavy";
+    }
+  }
+
+  if (main === "Snow") {
+    if (611 <= code <= 616) {
+      return "bi-cloud-sleet";
+    } else if (600 <= code <= 602) {
+      return "bi-cloud-snow";
+    } else {
+      return "bi-snow";
+    }
+  }
+
+  if (main === "Tornado") {
+    return "bi-tornado";
+  }
+
+  if (main === "Clear" && code === 800) {
+    return "bi-brightness-high";
+  }
+
+  if (main === "Clouds") {
+    if (code === 801) {
+      return "bi-cloud-sun";
+    } else if (code === 802) {
+      return "bi-cloudy";
+    } else {
+      return "bi-clouds";
+    }
+  }
+
+  if (701 <= code <= 771) {
+    return "bi-cloud-haze";
+  }
+}
+
+//change units (temps and wind speed) from imperial to metric with the metric switch at top right
 
 function changeTemp() {
   let temperatureDisplay = document.querySelectorAll(".temperature");
@@ -132,6 +186,62 @@ function changeUnit() {
 
 let unitSwitcher = document.querySelector(".unit-switcher");
 unitSwitcher.addEventListener("change", changeUnit);
+
+//generate five-day forecast from OneCall API data
+
+function formatForecastDay(timestamp) {
+  let forecastDay = DateTime.fromSeconds(timestamp);
+  console.log(forecastDay);
+  let day = daysOfWeek[forecastDay.weekday - 1];
+
+  return day;
+}
+
+function displayForecast(response) {
+  let forecastElement = document.querySelector(".fiveday-forecast");
+
+  let forecastHTML = "";
+
+  let days = ["Thursday", "Friday", "Saturday", "Sunday", "Monday"];
+
+  response.forEach(function (forecastDay, index) {
+    if (index !== 0 && index < 6) {
+      forecastHTML =
+        forecastHTML +
+        `              
+      <div class="col tomorrow-forecast">
+        <div class="forecast-day">
+          <div class="">${formatForecastDay(forecastDay.dt)}</div>
+          <div class="forecast-img"><i class = ${iconChange(
+            forecastDay.weather[0].id,
+            forecastDay.weather[0].main
+          )}></i></div>
+          <div class="row gx-0">
+            <div class="col">
+              <span class="forecast-high temperature">${Math.round(
+                forecastDay.temp.max
+              )}</span
+              ><span class="temp-unit">°F</span>
+            </div>
+            <div class="col">
+              <span class="forecast-low temperature">${Math.round(
+                forecastDay.temp.min
+              )}</span
+              ><span class="temp-unit">°F</span>
+            </div>
+          </div>
+          <div class="">
+            <span class="forecast-precip-img"
+              ><i class="bi bi-droplet-fill"></i></span
+            ><span class="forecast-precip"> ${forecastDay.pop * 100}%</span>
+          </div>
+        </div>
+      </div>`;
+    }
+  });
+
+  forecastElement.innerHTML = forecastHTML;
+}
 
 //convert UV Index value from number to description
 
@@ -187,7 +297,7 @@ function sunTime(timestamp, timezone) {
 
 //math and innerHTML transforms from One Call API
 
-function getForecast(response) {
+function getMoreWeather(response) {
   let precipitation = response.data.daily[0].pop * 100;
   let precipField = document.querySelector(".precip-percent");
   precipField.innerHTML = `${Math.round(precipitation)}`;
@@ -215,70 +325,18 @@ function getForecast(response) {
   let moonPhase = response.data.daily[0].moon_phase;
   let moonDisplay = document.querySelector(".moon-phase");
   moonDisplay.innerHTML = `${getMoonPhase(moonPhase)}`;
+
+  displayForecast(response.data.daily);
 }
 
 //call One Call API from coordinates given by Current Weather API
 
-function getMore(coordinates) {
+function oneWeatherMore(coordinates) {
   let cityLat = coordinates.lat;
   let cityLon = coordinates.lon;
   let coordApiKey = "2169a2396100786663a70310dd79fcc1";
   let coordApi = `https://api.openweathermap.org/data/2.5/onecall?lat=${cityLat}&lon=${cityLon}&exclude=minutely,hourly,alerts&appid=${coordApiKey}&units=${measurementUnit}`;
-  axios.get(coordApi).then(getForecast);
-}
-
-//translate the weather condition info from the API to Bootstrap icons
-
-function iconChange(code, main) {
-  if (main === "Thunderstorm") {
-    return "bi bi-cloud-lightning-rain";
-  }
-
-  if (main === "Drizzle") {
-    return "bi bi-cloud-drizzle";
-  }
-
-  if (main === "Rain") {
-    if (500 <= code <= 501) {
-      return "bi bi-cloud-rain";
-    } else if (code === 511) {
-      return "bi bi-cloud-hail";
-    } else {
-      return "bi bi-cloud-rain-heavy";
-    }
-  }
-
-  if (main === "Snow") {
-    if (611 <= code <= 616) {
-      return "bi bi-cloud-sleet";
-    } else if (600 <= code <= 602) {
-      return "bi bi-cloud-snow";
-    } else {
-      return "bi bi-snow";
-    }
-  }
-
-  if (main === "Tornado") {
-    return "bi bi-tornado";
-  }
-
-  if (main === "Clear" && code === 800) {
-    return "bi bi-brightness-high";
-  }
-
-  if (main === "Clouds") {
-    if (code === 801) {
-      return "bi bi-cloud-sun";
-    } else if (code === 802) {
-      return "bi bi-cloudy";
-    } else {
-      return "bi bi-clouds";
-    }
-  }
-
-  if (701 <= code <= 771) {
-    return "bi bi-cloud-haze";
-  }
+  axios.get(coordApi).then(getMoreWeather);
 }
 
 //math and innerHTML transforms from Current Weather API
@@ -320,10 +378,10 @@ function showWeather(response) {
   let iconElement = document.querySelector(".current-img");
   iconElement.setAttribute(
     "class",
-    `${iconChange(iconCode, iconMain)} current-img`
+    `bi ${iconChange(iconCode, iconMain)} current-img`
   );
 
-  getMore(response.data.coord);
+  oneWeatherMore(response.data.coord);
 }
 
 //update city name from geolocator feature
