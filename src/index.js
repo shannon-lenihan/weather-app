@@ -227,6 +227,8 @@ function getMore(coordinates) {
   axios.get(coordApi).then(getForecast);
 }
 
+//translate the weather condition info from the API to Bootstrap icons
+
 function iconChange(code, main) {
   if (main === "Thunderstorm") {
     return "bi bi-cloud-lightning-rain";
@@ -378,3 +380,5 @@ function searchCity(event) {
 
 let searchButton = document.querySelector(".search-field");
 searchButton.addEventListener("submit", searchCity);
+
+getWeather("washington d.c.");
