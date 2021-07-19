@@ -30,6 +30,19 @@ let monthsofYear = [
   "December",
 ];
 
+//toggle dark mode
+
+function setColor() {
+  if (colorSwitcher.checked) {
+    document.documentElement.setAttribute("data-theme", "dark");
+  } else {
+    document.documentElement.setAttribute("data-theme", "light");
+  }
+}
+
+let colorSwitcher = document.querySelector(".dark-switch");
+colorSwitcher.addEventListener("change", setColor);
+
 //get rid of the 24-hour clock because the coder is an American
 
 function hourConversion(hour) {

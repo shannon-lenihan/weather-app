@@ -1,11 +1,33 @@
+:root {
+  --primary: #000;
+  --secondary: rgb(255, 205, 224);
+  --accent: #e68bae;
+  --secondary-accent: #995770;
+  --shadow: rgba(255, 193, 228, 0.521);
+  --app-bg: #fff;
+  --border: rgb(231, 209, 222);
+  --gradient: linear-gradient(
+    180deg,
+    rgb(255, 227, 240) 0%,
+    rgb(255, 216, 236) 59%,
+    rgb(255, 210, 222) 100%
+  );
+}
+
+[data-theme="dark"] {
+  --primary: #fff;
+  --secondary: #f06292;
+  --accent: #9fa8da;
+  --secondary-accent: #f50057;
+  --shadow: rgba(41, 41, 41, 0.521);
+  --app-bg: #424242;
+  --border: #3a3a3a;
+  --gradient: #212121;
+}
+
 body {
-  background: linear-gradient(
-      180deg,
-      rgb(255, 227, 240) 0%,
-      rgb(255, 216, 236) 59%,
-      rgb(255, 210, 222) 100%
-    )
-    fixed;
+  background: var(--gradient) fixed;
+  color: var(--primary);
 }
 
 .app-container {
@@ -15,9 +37,9 @@ body {
 }
 
 .just-the-app {
-  background: rgb(255, 238, 246);
+  background: var(--app-bg);
   border-radius: 24px;
-  border: rgb(231, 209, 222);
+  border: var(--border);
   font-family: "Poppins", sans-serif;
 }
 
@@ -29,20 +51,20 @@ body {
 .search-bar {
   width: calc(10rem + 10vw);
   font-size: calc(0.7rem + 0.4vw);
-  border: 2px solid rgb(231, 209, 222);
+  border: 2px solid var(--border);
   border-radius: 4px;
   transition: all 0ms ease-in-out;
 }
 
 .search-bar:focus {
-  box-shadow: 0px 0px 0px 3px rgba(255, 193, 228, 0.521);
+  box-shadow: 0px 0px 0px 3px var(--shadow);
 }
 
 .search-button {
   font-size: calc(0.7rem + 0.4vw);
-  background-color: rgb(255, 205, 224);
-  color: rgb(255, 238, 246);
-  border: 2px solid rgb(231, 209, 222);
+  background-color: var(--secondary);
+  color: #fff;
+  border: 2px solid var(--border);
   border-radius: 4px;
   padding-left: 5px;
   transition: all 100ms ease-in-out;
@@ -54,8 +76,8 @@ body {
 
 .locator-field {
   font-size: calc(0.6rem + 0.4vw);
-  color: rgb(255, 205, 224);
-  text-shadow: 2px 2px 2px rgba(255, 205, 224, 0.3);
+  color: var(--secondary);
+  text-shadow: 2px 2px 2px var(--shadow);
   padding-left: 5px;
   transition: all 100ms ease-in-out;
 }
@@ -79,24 +101,24 @@ body {
 }
 
 input.form-check-input:not(:focus) {
-  background-color: rgb(255, 205, 224);
-  border-color: rgb(255, 205, 224);
+  background-color: var(--secondary);
+  border-color: var(--secondary);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
 }
 
 input.form-check-input:focus {
   box-shadow: none;
-  border-color: rgb(255, 205, 224);
+  border-color: var(--secondary);
 }
 
 input.form-check-input:focus:not(:checked) {
-  background-color: rgb(255, 205, 224);
+  background-color: var(--secondary);
   background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
 }
 
 input.form-check-input[type="checkbox"]:checked {
-  background-color: rgb(255, 205, 224);
-  border-color: rgb(231, 209, 222);
+  background-color: var(--secondary);
+  border-color: var(--border);
 }
 
 .city-display {
@@ -165,7 +187,7 @@ input.form-check-input[type="checkbox"]:checked {
 
 .weather-lower i {
   font-size: calc(0.8rem + 0.8vw);
-  color: #e68bae;
+  color: var(--accent);
 }
 
 .weather-lower {
@@ -211,7 +233,7 @@ input.form-check-input[type="checkbox"]:checked {
 .forecast-precip-img {
   font-size: calc(0.3rem + 0.5vw);
   vertical-align: middle;
-  color: #e68bae;
+  color: var(--accent);
 }
 .forecast-precip {
   font-size: calc(0.2rem + 0.8vw);
@@ -234,10 +256,10 @@ input.form-check-input[type="checkbox"]:checked {
 
 .gitHub {
   text-decoration: none;
-  color: #995770;
+  color: var(--secondary-accent);
 }
 
 .gitHub:hover {
   text-decoration: underline;
-  color: #995770;
+  color: var(--secondary-accent);
 }
