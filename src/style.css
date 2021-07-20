@@ -15,6 +15,7 @@
 
   --font-size-one: calc(0.5rem + 0.9vw);
   --font-size-two: calc(0.4rem + 0.5vw);
+  --font-size-time: calc(0.4rem + 0.7vw);
   --font-size-three: calc(0.2rem + 0.5vw);
   --font-size-small: calc(0.2rem + 0.5vw);
   --font-size-heading: calc(1.8rem + 1vw);
@@ -29,7 +30,7 @@
   --secondary-accent: #f50057;
   --shadow: rgba(41, 41, 41, 0.521);
   --app-bg: #424242;
-  --border: #3a3a3a;
+  --border: #2c2c2c;
   --gradient: #212121;
 }
 
@@ -45,7 +46,6 @@ body {
 
 .just-the-app {
   background: var(--app-bg);
-  border-radius: 24px;
   border: var(--border);
   font-family: "Poppins", sans-serif;
 }
@@ -95,16 +95,8 @@ body {
 }
 
 .toggles {
-  padding-top: 5px;
-}
-
-.dark-mode-switch {
   font-size: var(--font-size-switches);
   padding-top: 5px;
-}
-
-.switch-temp {
-  font-size: var(--font-size-switches);
 }
 
 input.form-check-input:not(:focus) {
@@ -128,7 +120,7 @@ input.form-check-input[type="checkbox"]:checked {
   border-color: var(--border);
 }
 
-.city-display {
+.header {
   text-align: center;
   margin: 15px auto 10px;
 }
@@ -138,8 +130,8 @@ input.form-check-input[type="checkbox"]:checked {
   margin: auto;
 }
 
-#current-time {
-  font-size: var(--font-size-two);
+.current-time {
+  font-size: var(--font-size-time);
   margin-top: 5px;
 }
 
@@ -243,6 +235,7 @@ input.form-check-input[type="checkbox"]:checked {
   vertical-align: middle;
   color: var(--accent);
 }
+
 .forecast-precip {
   font-size: var(--font-size-three);
 }

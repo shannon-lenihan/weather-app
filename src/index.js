@@ -93,7 +93,7 @@ let userTimeZone = today.zoneName;
 let currentDate = document.querySelector(".date");
 currentDate.innerHTML = `${calculatedDate(today, userTimeZone)}`;
 
-let currentTime = document.querySelector("#current-time");
+let currentTime = document.querySelector(".current-time");
 currentTime.innerHTML = `${calculatedTime(today, userTimeZone)}`;
 
 //translate the weather condition info from the API to Bootstrap icons
@@ -222,7 +222,6 @@ unitSwitcher.addEventListener("change", changeUnit);
 
 function formatForecastDay(timestamp) {
   let forecastDay = DateTime.fromSeconds(timestamp);
-  console.log(forecastDay);
   let day = daysOfWeek[forecastDay.weekday - 1];
 
   return day;
@@ -232,8 +231,6 @@ function displayForecast(response) {
   let forecastElement = document.querySelector(".fiveday-forecast");
 
   let forecastHTML = "";
-
-  let days = ["Thursday", "Friday", "Saturday", "Sunday", "Monday"];
 
   response.forEach(function (forecastDay, index) {
     if (index !== 0 && index < 6) {
@@ -461,7 +458,6 @@ function getWeather(searchedCity) {
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=${measurementUnit}`;
   axios.get(apiUrl).then(showWeather);
   usedUnit = `${measurementUnit}`;
-  console.log(usedUnit);
 }
 
 //what happens if you search for a city
@@ -482,5 +478,3 @@ let searchButton = document.querySelector(".search-field");
 searchButton.addEventListener("submit", searchCity);
 
 getWeather("washington d.c.");
-
-debugger;
