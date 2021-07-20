@@ -12,6 +12,14 @@
     rgb(255, 216, 236) 59%,
     rgb(255, 210, 222) 100%
   );
+
+  --font-size-one: calc(0.5rem + 0.9vw);
+  --font-size-two: calc(0.4rem + 0.5vw);
+  --font-size-three: calc(0.2rem + 0.5vw);
+  --font-size-small: calc(0.2rem + 0.5vw);
+  --font-size-heading: calc(1.8rem + 1vw);
+  --font-size-switches: calc(0.3rem + 0.4vw);
+  --font-size-small-img: calc(0.8rem + 0.8vw);
 }
 
 [data-theme="dark"] {
@@ -31,9 +39,8 @@ body {
 }
 
 .app-container {
-  margin: 40px auto 10px;
-  max-height: 960px;
-  max-width: 860px;
+  margin: 30px auto 10px;
+  max-width: 720px;
 }
 
 .just-the-app {
@@ -45,12 +52,12 @@ body {
 
 .search-field {
   text-align: center;
-  padding-top: 15px;
+  padding-top: 10px;
 }
 
 .search-bar {
   width: calc(10rem + 10vw);
-  font-size: calc(0.7rem + 0.4vw);
+  font-size: var(--font-size-two);
   border: 2px solid var(--border);
   border-radius: 4px;
   transition: all 0ms ease-in-out;
@@ -61,7 +68,7 @@ body {
 }
 
 .search-button {
-  font-size: calc(0.7rem + 0.4vw);
+  font-size: var(--font-size-two);
   background-color: var(--secondary);
   color: #fff;
   border: 2px solid var(--border);
@@ -75,7 +82,7 @@ body {
 }
 
 .locator-field {
-  font-size: calc(0.6rem + 0.4vw);
+  font-size: var(--font-size-two);
   color: var(--secondary);
   text-shadow: 2px 2px 2px var(--shadow);
   padding-left: 5px;
@@ -92,12 +99,12 @@ body {
 }
 
 .dark-mode-switch {
-  font-size: calc(0.4rem + 0.4vw);
+  font-size: var(--font-size-switches);
   padding-top: 5px;
 }
 
 .switch-temp {
-  font-size: calc(0.4rem + 0.4vw);
+  font-size: var(--font-size-switches);
 }
 
 input.form-check-input:not(:focus) {
@@ -123,36 +130,36 @@ input.form-check-input[type="checkbox"]:checked {
 
 .city-display {
   text-align: center;
-  margin: 30px auto 10px;
+  margin: 15px auto 10px;
 }
 
 .date {
-  font-size: calc(0.8rem + 0.9vw);
+  font-size: var(--font-size-one);
   margin: auto;
 }
 
 #current-time {
-  font-size: calc(0.5rem + 0.6vw);
+  font-size: var(--font-size-two);
   margin-top: 5px;
 }
 
 .selected-city {
-  font-size: calc(1.8rem + 1.5vw);
-  line-height: 1.5;
+  font-size: var(--font-size-heading);
+  line-height: 1.2;
   text-transform: capitalize;
 }
 
 .local-time {
-  font-size: calc(0.5rem + 0.6vw);
+  font-size: var(--font-size-two);
 }
 
 .current-weather {
-  margin: 0px auto 50px;
+  margin: 0px auto 5px;
 }
 
 .current-condition {
   text-align: center;
-  line-height: 1.25;
+  line-height: 1.2;
 }
 
 .current-weather-pic {
@@ -160,7 +167,7 @@ input.form-check-input[type="checkbox"]:checked {
 }
 
 .current-description {
-  font-size: calc(0.6rem + 0.5vw);
+  font-size: var(--font-size-two);
   text-transform: capitalize;
 }
 
@@ -170,15 +177,15 @@ input.form-check-input[type="checkbox"]:checked {
 }
 
 .real-temp-together {
-  font-size: calc(2rem + 2vw);
+  font-size: var(--font-size-heading);
 }
 
 .real-feel {
-  font-size: calc(0.6rem + 0.5vw);
+  font-size: var(--font-size-two);
 }
 
 .current-extra {
-  font-size: calc(0.2rem + 0.8vw);
+  font-size: var(--font-size-two);
   text-align: left;
   list-style: none;
   margin-bottom: 0px;
@@ -186,14 +193,15 @@ input.form-check-input[type="checkbox"]:checked {
 }
 
 .weather-lower i {
-  font-size: calc(0.8rem + 0.8vw);
+  font-size: var(--font-size-small-img);
   color: var(--accent);
 }
 
 .weather-lower {
   text-align: center;
-  font-size: calc(0.4rem + 0.6vw);
-  margin-top: 25px;
+  font-size: var(--font-size-two);
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .weather-lower .col-2 {
@@ -205,7 +213,7 @@ input.form-check-input[type="checkbox"]:checked {
 }
 
 .tonight i {
-  font-size: calc(1rem + 0.8vw);
+  font-size: var(--font-size-small-img);
 }
 
 .tonight-temp {
@@ -213,13 +221,13 @@ input.form-check-input[type="checkbox"]:checked {
 }
 
 .moon-phase {
-  font-size: calc(0.4rem + 0.5vw);
+  font-size: var(--font-size-two);
   margin-top: 5px;
 }
 
 .forecast {
-  margin-bottom: 15px;
-  font-size: calc(0.25rem + 1vw);
+  margin-bottom: 10px;
+  font-size: var(--font-size-two);
 }
 
 .forecast-day {
@@ -227,7 +235,7 @@ input.form-check-input[type="checkbox"]:checked {
 }
 
 .forecast-img {
-  font-size: calc(0.9rem + 1vw);
+  font-size: var(--font-size-small-img);
 }
 
 .forecast-precip-img {
@@ -236,7 +244,7 @@ input.form-check-input[type="checkbox"]:checked {
   color: var(--accent);
 }
 .forecast-precip {
-  font-size: calc(0.2rem + 0.8vw);
+  font-size: var(--font-size-three);
 }
 
 .forecast-high {
@@ -250,8 +258,8 @@ input.form-check-input[type="checkbox"]:checked {
 .footer {
   text-align: center;
   font-family: "Cousine", monospace;
-  font-size: calc(0.2rem + 0.5vw);
-  margin-top: 15px;
+  font-size: var(--font-size-small);
+  margin-top: 10px;
 }
 
 .gitHub {
