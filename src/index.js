@@ -4,6 +4,9 @@ let measurementUnit = "imperial";
 var DateTime = luxon.DateTime;
 let mainTemperature = null;
 let windSpeed = null;
+let usedUnit = null;
+
+let temperatures = [];
 
 let daysOfWeek = [
   "Monday",
@@ -156,14 +159,23 @@ function changeTemp() {
 
   tempArray.forEach(function (temp, index) {
     temp = tempArray[index].innerText;
-    if (unitSwitcher.checked) {
-      let convertedTemp = (temp - 32) / 1.8;
+    if (measurementUnit === "metric" && usedUnit === "imperial") {
+      let convertedTemp = (temperatures[index] - 32) / 1.8;
       temperatureDisplay[index].innerHTML = `${Math.round(convertedTemp)}`;
       displayUnit[index].innerHTML = "°C";
-    } else {
-      let convertedTemp = temp * 1.8 + 32;
+    } else if (measurementUnit === "imperial" && usedUnit === "metric") {
+      let convertedTemp = temperatures[index] * 1.8 + 32;
       temperatureDisplay[index].innerHTML = `${Math.round(convertedTemp)}`;
       displayUnit[index].innerHTML = "°F";
+    } else if (measurementUnit === usedUnit) {
+      temperatureDisplay[index].innerHTML = `${Math.round(
+        temperatures[index]
+      )}`;
+      if (measurementUnit === "imperial") {
+        displayUnit[index].innerHTML = "°F";
+      } else {
+        displayUnit[index].innerHTML = "°C";
+      }
     }
   });
 }
@@ -171,16 +183,22 @@ function changeTemp() {
 function changeWindSpeed() {
   let windSpeedField = document.querySelector(".wind-speed");
   let windSpeedUnit = document.querySelector(".wind-unit");
-  let windSpeedText = windSpeedField.innerText;
 
-  if (unitSwitcher.checked) {
-    let metersPerSec = windSpeedText * 1.609;
+  if (measurementUnit === "metric" && usedUnit === "imperial") {
+    let metersPerSec = windSpeed * 1.609;
     windSpeedField.innerHTML = `${Math.round(metersPerSec)}`;
     windSpeedUnit.innerHTML = ` km/h`;
-  } else {
-    let mph = windSpeedText / 1.609;
+  } else if (measurementUnit === "imperial" && usedUnit === "metric") {
+    let mph = windSpeed / 1.609;
     windSpeedField.innerHTML = `${Math.round(mph)}`;
     windSpeedUnit.innerHTML = ` mph`;
+  } else if (measurementUnit === usedUnit) {
+    windSpeedField.innerHTML = `${Math.round(windSpeed)}`;
+    if (measurementUnit === "imperial") {
+      windSpeedUnit.innerHTML = ` mph`;
+    } else {
+      windSpeedUnit.innerHTML = ` km/h`;
+    }
   }
 }
 
@@ -246,10 +264,13 @@ function displayForecast(response) {
           <div class="">
             <span class="forecast-precip-img"
               ><i class="bi bi-droplet-fill"></i></span
-            ><span class="forecast-precip"> ${forecastDay.pop * 100}%</span>
+            ><span class="forecast-precip"> ${Math.round(
+              forecastDay.pop * 100
+            )}%</span>
           </div>
         </div>
       </div>`;
+      temperatures.push(forecastDay.temp.max, forecastDay.temp.min);
     }
   });
 
@@ -332,6 +353,7 @@ function getMoreWeather(response) {
   sunsetField.innerHTML = `${sunTime(sunsetTime, localTimeZone)}`;
 
   let nightTemp = response.data.daily[0].temp.night;
+  temperatures.push(nightTemp);
   let tonightDisplay = document.querySelector(".tonight-temp");
   tonightDisplay.innerHTML = `${Math.round(nightTemp)}`;
 
@@ -355,6 +377,8 @@ function oneWeatherMore(coordinates) {
 //math and innerHTML transforms from Current Weather API
 
 function showWeather(response) {
+  temperatures = [];
+
   mainTemperature = response.data.main.temp;
   let currentTemperature = document.querySelector(".real-temp");
   currentTemperature.innerHTML = `${Math.round(mainTemperature)}`;
@@ -394,6 +418,8 @@ function showWeather(response) {
     `bi ${iconChange(iconCode, iconMain)} current-img`
   );
 
+  temperatures.push(mainTemperature, realFeel, tempMin, tempMax);
+
   oneWeatherMore(response.data.coord);
 }
 
@@ -414,6 +440,7 @@ function handlePosition(position) {
   let apiLocationKey = "7e66edd0a4a9f61d32c3d08912327042";
   let apiLocation = `https://api.openweathermap.org/data/2.5/weather?lat=${positionLat}&lon=${positionLon}&appid=${apiLocationKey}&units=${measurementUnit}`;
   axios.get(apiLocation).then(locateCityName);
+  usedUnit = `${measurementUnit}`;
 }
 
 //what happens if you click the geolocation button
@@ -433,6 +460,8 @@ function getWeather(searchedCity) {
   let apiKey = "7e66edd0a4a9f61d32c3d08912327042";
   let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=${measurementUnit}`;
   axios.get(apiUrl).then(showWeather);
+  usedUnit = `${measurementUnit}`;
+  console.log(usedUnit);
 }
 
 //what happens if you search for a city
@@ -453,3 +482,5 @@ let searchButton = document.querySelector(".search-field");
 searchButton.addEventListener("submit", searchCity);
 
 getWeather("washington d.c.");
+
+debugger;
